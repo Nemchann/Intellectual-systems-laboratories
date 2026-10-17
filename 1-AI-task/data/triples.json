@@ -50,14 +50,6 @@
       "evidence_type": "expert"
     },
     {
-      "id": "T006",
-      "subject": "PLT-003",
-      "relation": "REL-004",
-      "object": "VAL-003",
-      "source": "Экспертное интервью № 2",
-      "evidence_type": "expert"
-    },
-    {
       "id": "T007",
       "subject": "PLT-001",
       "relation": "REL-006",
@@ -254,7 +246,7 @@
     },
     {
       "id": "T031",
-      "subject": "INS-005 ",
+      "subject": "INS-005",
       "relation": "REL-002",
       "object": "PLT-002",
       "source": "Условный пример для демонстрации сети",

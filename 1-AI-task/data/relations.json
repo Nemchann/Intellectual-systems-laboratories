@@ -27,7 +27,7 @@
       "meaning": "Показывает, к какому классу относится тип растения",
       "subject_types": ["PLT"],
       "object_types": ["CLS"],
-      "inverse": "содержит_тип_растения",
+      "inverse": null,
       "symmetric": false,
       "transitive": false
     },
