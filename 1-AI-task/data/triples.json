@@ -164,7 +164,7 @@
     {
       "id": "T021",
       "subject": "PLT-001",
-      "relation": "REL-007",
+      "relation": "REL-006",
       "object": "CHR-010",
       "source": "Экспертное интервью № 2",
       "evidence_type": "expert"
@@ -172,7 +172,7 @@
     {
       "id": "T022",
       "subject": "PLT-002",
-      "relation": "REL-007",
+      "relation": "REL-006",
       "object": "CHR-010",
       "source": "Экспертное интервью № 2",
       "evidence_type": "expert"
@@ -180,7 +180,7 @@
     {
       "id": "T023",
       "subject": "PLT-004",
-      "relation": "REL-007",
+      "relation": "REL-006",
       "object": "CHR-011",
       "source": "Экспертное интервью № 2",
       "evidence_type": "expert"
@@ -210,13 +210,10 @@
       "evidence_type": "model_assumption"
     },
     {
-      "_comment": "Тут ниже подправить"
-    },
-    {
       "id": "T027",
       "subject": "INS-002",
       "relation": "REL-002",
-      "object": "CLS-003",
+      "object": "PLT-005",
       "source": "Условный пример для демонстрации сети",
       "evidence_type": "model_assumption"
     },
@@ -289,6 +286,22 @@
       "subject": "PLT-004",
       "relation": "REL-003",
       "object": "CLS-005",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T037",
+      "subject": "CLS-003",
+      "relation": "REL-001",
+      "object": "CLS-002",
+      "source": "Экспертное интервью № 1",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T038",
+      "subject": "PLT-005",
+      "relation": "REL-003",
+      "object": "CLS-003",
       "source": "Условный пример для демонстрации сети",
       "evidence_type": "model_assumption"
     }
