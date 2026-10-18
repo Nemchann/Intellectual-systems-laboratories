@@ -1,11 +1,11 @@
 import json
 from pathlib import Path
 
-from src.search import neighbors
 from src.validation import validate
 from src.hierarchy import ancestors, descendants
 from src.search import neighbors, find_path
 
+from src.visualization import render_graph
 
 # Путь к папке с данными
 DATA_DIR = Path(__file__).parent / "data"
@@ -27,6 +27,37 @@ network = {
     "relations": relations,
     "triples": triples,
 }
+
+render_graph(network)
+
+def show_path(source_id, target_id):
+    path = find_path(source_id, target_id, triples, nodes)
+
+    if path is None:
+        print("Путь не найден.")
+        return
+
+    if not path:
+        print("Начальный и конечный узлы совпадают.")
+        return
+
+    nodes_by_id = {node["id"]: node for node in nodes}
+    relations_by_id = {
+        relation["id"]: relation
+        for relation in relations
+    }
+
+    for triple in path:
+        subject = nodes_by_id[triple["subject"]]
+        relation = relations_by_id[triple["relation"]]
+        obj = nodes_by_id[triple["object"]]
+
+        print(
+            f'{subject["name"]} '
+            f'—[{relation["name"]}]→ '
+            f'{obj["name"]}'
+        )
+
 
 # 1. Проверяем корректность сети
 errors = validate(network)
@@ -92,3 +123,13 @@ else:
             f'—[{relation["name"]}]→ '
             f'{obj["name"]}'
         )
+
+
+print("\nТест 1. Спатифиллум → Комнатное растение")
+show_path("PLT-003", "CLS-001")
+
+print("\nТест 2. Экземпляр замиокулькаса → Неприхотливость")
+show_path("INS-001", "CHR-005")
+
+print("\nТест 3. Слабое освещение → Комнатное растение")
+show_path("VAL-001", "CLS-001")
