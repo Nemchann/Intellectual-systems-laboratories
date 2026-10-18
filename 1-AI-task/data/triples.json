@@ -1,0 +1,309 @@
+
+{
+  "triples": [
+    {
+      "id": "T001",
+      "subject": "PLT-001",
+      "relation": "REL-004",
+      "object": "VAL-004",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T002",
+      "subject": "PLT-002",
+      "relation": "REL-004",
+      "object": "VAL-005",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T003",
+      "subject": "PLT-004",
+      "relation": "REL-004",
+      "object": "VAL-005",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T004",
+      "subject": "PLT-003",
+      "relation": "REL-004",
+      "object": "VAL-006",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T005",
+      "subject": "PLT-003",
+      "relation": "REL-004",
+      "object": "VAL-007",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T006",
+      "subject": "PLT-003",
+      "relation": "REL-004",
+      "object": "VAL-003",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T007",
+      "subject": "PLT-001",
+      "relation": "REL-006",
+      "object": "CHR-005",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T008",
+      "subject": "PLT-002",
+      "relation": "REL-006",
+      "object": "CHR-005",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T009",
+      "subject": "PLT-003",
+      "relation": "REL-005",
+      "object": "VAL-009",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T010",
+      "subject": "PLT-004",
+      "relation": "REL-005",
+      "object": "VAL-009",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T011",
+      "subject": "PLT-001",
+      "relation": "REL-006",
+      "object": "CHR-002",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T012",
+      "subject": "PLT-002",
+      "relation": "REL-006",
+      "object": "CHR-002",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T013",
+      "subject": "PLT-004",
+      "relation": "REL-006",
+      "object": "CHR-003",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T014",
+      "subject": "PLT-001",
+      "relation": "REL-006",
+      "object": "CHR-007",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T015",
+      "subject": "PLT-002",
+      "relation": "REL-006",
+      "object": "CHR-007",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T016",
+      "subject": "PLT-004",
+      "relation": "REL-006",
+      "object": "CHR-007",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T017",
+      "subject": "PLT-003",
+      "relation": "REL-006",
+      "object": "CHR-009",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T018",
+      "subject": "PLT-001",
+      "relation": "REL-006",
+      "object": "CHR-008",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T019",
+      "subject": "PLT-002",
+      "relation": "REL-006",
+      "object": "CHR-008",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T020",
+      "subject": "PLT-004",
+      "relation": "REL-006",
+      "object": "CHR-008",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T021",
+      "subject": "PLT-001",
+      "relation": "REL-006",
+      "object": "CHR-010",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T022",
+      "subject": "PLT-002",
+      "relation": "REL-006",
+      "object": "CHR-010",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T023",
+      "subject": "PLT-004",
+      "relation": "REL-006",
+      "object": "CHR-011",
+      "source": "Экспертное интервью № 2",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T024",
+      "subject": "CLS-002",
+      "relation": "REL-001",
+      "object": "CLS-001",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T025",
+      "subject": "CLS-004",
+      "relation": "REL-001",
+      "object": "CLS-001",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T026",
+      "subject": "CLS-005",
+      "relation": "REL-001",
+      "object": "CLS-001",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T027",
+      "subject": "INS-002",
+      "relation": "REL-002",
+      "object": "PLT-005",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T028",
+      "subject": "INS-001",
+      "relation": "REL-002",
+      "object": "PLT-001",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T029",
+      "subject": "INS-003",
+      "relation": "REL-002",
+      "object": "PLT-004",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T030",
+      "subject": "INS-004",
+      "relation": "REL-002",
+      "object": "PLT-003",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T031",
+      "subject": "INS-005",
+      "relation": "REL-002",
+      "object": "PLT-002",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T032",
+      "subject": "CLS-002",
+      "relation": "REL-007",
+      "object": "CHR-005",
+      "source": "Экспертное интервью № 1",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T033",
+      "subject": "PLT-003",
+      "relation": "REL-003",
+      "object": "CLS-004",
+      "source": "Экспертное интервью № 1",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T034",
+      "subject": "PLT-001",
+      "relation": "REL-003",
+      "object": "CLS-005",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T035",
+      "subject": "PLT-002",
+      "relation": "REL-003",
+      "object": "CLS-005",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T036",
+      "subject": "PLT-004",
+      "relation": "REL-003",
+      "object": "CLS-005",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    },
+    {
+      "id": "T037",
+      "subject": "CLS-003",
+      "relation": "REL-001",
+      "object": "CLS-002",
+      "source": "Экспертное интервью № 1",
+      "evidence_type": "expert"
+    },
+    {
+      "id": "T038",
+      "subject": "PLT-005",
+      "relation": "REL-003",
+      "object": "CLS-003",
+      "source": "Условный пример для демонстрации сети",
+      "evidence_type": "model_assumption"
+    }
+  ]
+}

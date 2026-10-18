@@ -1,0 +1,75 @@
+
+{
+  "relations": [
+    {
+      "id": "REL-001",
+      "name": "подкласс",
+      "meaning": "Связывает более частный класс с более общим классом",
+      "subject_types": ["CLS"],
+      "object_types": ["CLS"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": true
+    },
+    {
+      "id": "REL-002",
+      "name": "экземпляр",
+      "meaning": "Связывает конкретный экземпляр с типом растения",
+      "subject_types": ["INS"],
+      "object_types": ["PLT", "CLS"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    },
+    {
+      "id": "REL-003",
+      "name": "принадлежит_классу",
+      "meaning": "Показывает, к какому классу относится тип растения",
+      "subject_types": ["PLT"],
+      "object_types": ["CLS"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    },
+    {
+      "id": "REL-004",
+      "name": "требует",
+      "meaning": "Связывает тип растения с необходимым условием ухода",
+      "subject_types": ["PLT"],
+      "object_types": ["VAL"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    },
+    {
+      "id": "REL-005",
+      "name": "чувствителен_к",
+      "meaning": "Указывает на чувствительность растения к воздействию",
+      "subject_types": ["PLT"],
+      "object_types": ["VAL", "CHR"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    },
+    {
+      "id": "REL-006",
+      "name": "имеет_характеристику",
+      "meaning": "Связывает тип растения с его характеристикой",
+      "subject_types": ["PLT"],
+      "object_types": ["CHR"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    },
+    {
+      "id": "REL-007",
+      "name": "характеризуется",
+      "meaning": "Связывает класс растений с общей характеристикой",
+      "subject_types": ["CLS"],
+      "object_types": ["CHR"],
+      "inverse": null,
+      "symmetric": false,
+      "transitive": false
+    }
+  ]
+}
