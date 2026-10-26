@@ -59,7 +59,7 @@ def show_path(source_id, target_id):
         )
 
 
-# 1. Проверяем корректность сети
+# Проверяем корректность сети
 errors = validate(network)
 
 if errors:
@@ -69,7 +69,7 @@ if errors:
 else:
     print("Ошибок не обнаружено.")
 
-# 2. Ищем соседей
+# Ищем соседей
 result = neighbors(
     node_id="PLT-001",
     relation_id="REL-004",
