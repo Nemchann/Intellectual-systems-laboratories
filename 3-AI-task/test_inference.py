@@ -4,6 +4,7 @@ import json
 from knowledge_base import load_knowledge_base
 from dialogue import collect_facts
 from inference import run_inference
+from explanation import format_explanation
 
 
 kb = load_knowledge_base()
@@ -20,3 +21,7 @@ if result["recommendation"] is not None:
     print("\nРекомендация:", plant.get("name", plant.get("id")))
 else:
     print("\n", result["message"])
+
+
+result = run_inference(facts, kb["plants"], kb["rules"])
+print(format_explanation(facts, result))
