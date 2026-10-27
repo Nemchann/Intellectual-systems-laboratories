@@ -4,8 +4,8 @@
   "value_conventions": {
     "unknown": "Неизвестное значение; не приравнивается к отрицательному ответу.",
     "pet_safety": [
-      "toxic",
-      "non_toxic",
+      "По данным ASPCA является токсичным",
+      "по интервью считается нетоксичным",
       "unknown"
     ],
     "watering_frequency": [
@@ -180,7 +180,7 @@
           {
             "fact": "plant.pet_safety.cats",
             "operator": "==",
-            "value": "toxic"
+            "value": "По данным ASPCA является токсичным"
           }
         ]
       },
@@ -209,7 +209,7 @@
           {
             "fact": "plant.pet_safety.dogs",
             "operator": "==",
-            "value": "toxic"
+            "value": "По данным ASPCA является токсичным"
           }
         ]
       },
@@ -287,7 +287,7 @@
           {
             "fact": "plant.pet_safety.physical_risk",
             "operator": "==",
-            "value": "dangerous_spines"
+            "value": "есть колючки"
           },
           {
             "fact": "user.pets_interest",
@@ -900,8 +900,9 @@
       },
       "action": {
         "type": "decrease_priority",
-        "target": "candidate",
-        "priority_factor": "care_compatibility"
+        "target": "candidate.priority",
+        "priority_factor": "care_compatibility",
+        "value": 2
       },
       "explanation": "Кандидат остаётся допустимым, но его приоритет снижается из-за несоответствия возможностям пользователя по уходу."
     },
@@ -931,8 +932,9 @@
       },
       "action": {
         "type": "increase_priority",
-        "target": "candidate",
-        "priority_factor": "size_and_appearance_match"
+        "target": "candidate.priority",
+        "priority_factor": "size_and_appearance_match",
+        "value": 2
       },
       "explanation": "Допущенный кандидат соответствует предпочтениям пользователя по размеру и внешнему виду."
     },
@@ -1122,6 +1124,27 @@
         "source": "fired_rules_and_session_facts"
       },
       "explanation": "Объяснение формируется по ответам пользователя, характеристикам выбранного растения и реально сработавшим правилам."
+    },
+    {
+      "id": "R43",
+      "group": "D",
+      "description": "Размер растения не ограничивает выбор",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.size",
+            "operator": "==",
+            "value": "неважно"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.size_compatible",
+        "value": true
+      },
+      "explanation": "Пользователь не ограничивает выбор размером растения, поэтому этот критерий не снижает пригодность кандидата."
     }
   ]
 }
