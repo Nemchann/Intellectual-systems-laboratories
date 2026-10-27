@@ -1,0 +1,185 @@
+
+{
+  "plants": [
+    {
+      "id": "PLT-001",
+      "name": "Замиокулькас",
+      "lighting": {
+        "preferred": "умеренное",
+        "tolerates_low": null
+      },
+      "watering": {
+        "frequency": "редкий"
+      },
+      "humidity": {
+        "requirement": "умеренная"
+      },
+      "draft_sensitivity": "низкая",
+      "size": {
+        "category": "среднее"
+      },
+      "plant_type": "декоративно-лиственное",
+      "care_difficulty": "низкая",
+      "care_error_tolerance": "высокая",
+      "pet_safety": {
+        "cats": "По данным ASPCA является токсичным",
+        "dogs": "По данным ASPCA является токсичным",
+        "physical_risk": "нет данных"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №1"
+      ]
+    },
+    {
+      "id": "PLT-002",
+      "name": "Сансевиерия",
+      "lighting": {
+        "preferred": "умеренное",
+        "tolerates_low": null
+      },
+      "watering": {
+        "frequency": "умеренный"
+      },
+      "humidity": {
+        "requirement": "умеренная"
+      },
+      "draft_sensitivity": "низкая",
+      "size": {
+        "category": "среднее"
+      },
+      "plant_type": "декоративно-лиственное",
+      "care_difficulty": "низкая",
+      "care_error_tolerance": "высокая",
+      "pet_safety": {
+        "cats": "По данным ASPCA является токсичным",
+        "dogs": "По данным ASPCA является токсичным",
+        "physical_risk": "нет данных"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №1"
+      ]
+    },
+    {
+      "id": "PLT-003",
+      "name": "Спатифиллум",
+      "lighting": {
+        "preferred": "яркое",
+        "tolerates_low": false
+      },
+      "watering": {
+        "frequency": "частый"
+      },
+      "humidity": {
+        "requirement": "высокая"
+      },
+      "draft_sensitivity": "высокая",
+      "size": {
+        "category": "среднее"
+      },
+      "plant_type": "цветущее",
+      "care_difficulty": "высокая",
+      "care_error_tolerance": "низкая",
+      "pet_safety": {
+        "cats": "По данным ASPCA является токсичным",
+        "dogs": "По данным ASPCA является токсичным",
+        "physical_risk": "нет данных"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №1"
+      ]
+    },
+    {
+      "id": "PLT-004",
+      "name": "Монстера",
+      "lighting": {
+        "preferred": "умеренное",
+        "tolerates_low": null
+      },
+      "watering": {
+        "frequency": "умеренный"
+      },
+      "humidity": {
+        "requirement": "умеренная"
+      },
+      "draft_sensitivity": "средняя",
+      "size": {
+        "category": "крупное"
+      },
+      "plant_type": "декоративно-лиственное",
+      "care_difficulty": "средняя",
+      "care_error_tolerance": "средняя",
+      "pet_safety": {
+        "cats": "По данным ASPCA является токсичным",
+        "dogs": "По данным ASPCA является токсичным",
+        "physical_risk": "нет данных"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №1"
+      ]
+    },
+    {
+      "id": "PLT-005",
+      "name": "Эспостоа",
+      "lighting": {
+        "preferred": "яркое",
+        "tolerates_low": true
+      },
+      "watering": {
+        "frequency": "редкий"
+      },
+      "humidity": {
+        "requirement": "умеренная"
+      },
+      "draft_sensitivity": "средняя",
+      "size": {
+        "category": "среднее"
+      },
+      "plant_type": "декоративно-лиственное",
+      "care_difficulty": "низкая",
+      "care_error_tolerance": "высокая",
+      "pet_safety": {
+        "cats": "по интервью считается нетоксичным",
+        "dogs": "по интервью считается нетоксичным",
+        "physical_risk": "есть колючки"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №3"
+      ]
+    },
+    {
+      "id": "PLT-006",
+      "name": "Хлорофитум",
+      "lighting": {
+        "preferred": "умеренное",
+        "tolerates_low": true
+      },
+      "watering": {
+        "frequency": "редкий"
+      },
+      "humidity": {
+        "requirement": "умеренная"
+      },
+      "draft_sensitivity": "средняя",
+      "size": {
+        "category": "среднее"
+      },
+      "plant_type": "декоративно-лиственное",
+      "care_difficulty": "низкая",
+      "care_error_tolerance": "высокая",
+      "pet_safety": {
+        "cats": "по интервью считается нетоксичным",
+        "dogs": "по интервью считается нетоксичным",
+        "physical_risk": "не указан"
+      },
+      "sources": [
+        "паспорт растения",
+        "интервью №3"
+      ]
+    }
+  ]
+}

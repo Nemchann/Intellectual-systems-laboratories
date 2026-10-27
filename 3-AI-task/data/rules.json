@@ -1,0 +1,1127 @@
+{
+  "schema_version": "1.0",
+  "description": "Правила экспертной системы выбора комнатного растения. Условия являются структурированным описанием логики; для исполнения нужен механизм вывода, понимающий указанные типы действий и ссылки на факты.",
+  "value_conventions": {
+    "unknown": "Неизвестное значение; не приравнивается к отрицательному ответу.",
+    "pet_safety": [
+      "toxic",
+      "non_toxic",
+      "unknown"
+    ],
+    "watering_frequency": [
+      "редкий",
+      "умеренный",
+      "частый"
+    ],
+    "note": "Строковые значения должны точно совпадать с plants.json и questions.json."
+  },
+  "rules": [
+    {
+      "id": "R01",
+      "group": "A",
+      "description": "Уточнение неизвестного освещения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.lighting",
+            "operator": "==",
+            "value": "unknown"
+          }
+        ]
+      },
+      "action": {
+        "type": "ask_question",
+        "question_id": "F-01"
+      },
+      "explanation": "Уровень освещения неизвестен, поэтому система запрашивает его у пользователя."
+    },
+    {
+      "id": "R02",
+      "group": "A",
+      "description": "Уточнение предпочтительной частоты полива",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.watering_preference",
+            "operator": "==",
+            "value": "unknown"
+          }
+        ]
+      },
+      "action": {
+        "type": "ask_question",
+        "question_id": "F-02"
+      },
+      "explanation": "Система уточняет, как часто пользователь готов поливать растение."
+    },
+    {
+      "id": "R03",
+      "group": "A",
+      "description": "Уточнение влажности воздуха",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.humidity",
+            "operator": "==",
+            "value": "unknown"
+          }
+        ]
+      },
+      "action": {
+        "type": "ask_question",
+        "question_id": "F-03"
+      },
+      "explanation": "Влажность помещения неизвестна, поэтому система задаёт дополнительный вопрос."
+    },
+    {
+      "id": "R04",
+      "group": "A",
+      "description": "Уточнение наличия сквозняков",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.drafts",
+            "operator": "==",
+            "value": "unknown"
+          }
+        ]
+      },
+      "action": {
+        "type": "ask_question",
+        "question_id": "F-04"
+      },
+      "explanation": "Система уточняет, бывают ли в помещении сильные сквозняки."
+    },
+    {
+      "id": "R05",
+      "group": "A",
+      "description": "Уточнение наличия домашних животных",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.pets",
+            "operator": "==",
+            "value": "unknown"
+          }
+        ]
+      },
+      "action": {
+        "type": "ask_question",
+        "question_id": "F-08"
+      },
+      "explanation": "Наличие животных влияет на проверку токсичности и физических рисков растения."
+    },
+    {
+      "id": "R06",
+      "group": "A",
+      "description": "Проверка допустимости ответа",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "input.answer_valid",
+            "operator": "==",
+            "value": false
+          }
+        ]
+      },
+      "action": {
+        "type": "repeat_question",
+        "message": "Ответ не входит в допустимые значения. Пожалуйста, выберите один из предложенных вариантов."
+      },
+      "explanation": "Введённый ответ не соответствует списку допустимых значений вопроса."
+    },
+    {
+      "id": "R07",
+      "group": "B",
+      "description": "Исключение по освещению",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.lighting",
+            "operator": "==",
+            "value": "слабое"
+          },
+          {
+            "fact": "plant.lighting.tolerates_low",
+            "operator": "==",
+            "value": false
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.excluded.light",
+        "value": true
+      },
+      "explanation": "Растение не переносит слабое освещение, указанное пользователем."
+    },
+    {
+      "id": "R08",
+      "group": "B",
+      "description": "Исключение при подтверждённой опасности для кошек",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.pets",
+            "operator": "in",
+            "value": [
+              "кошка",
+              "кошка и собака"
+            ]
+          },
+          {
+            "fact": "plant.pet_safety.cats",
+            "operator": "==",
+            "value": "toxic"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.excluded.safety",
+        "value": true
+      },
+      "explanation": "В паспорте указана опасность растения для кошек."
+    },
+    {
+      "id": "R09",
+      "group": "B",
+      "description": "Исключение при подтверждённой опасности для собак",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.pets",
+            "operator": "in",
+            "value": [
+              "собака",
+              "кошка и собака"
+            ]
+          },
+          {
+            "fact": "plant.pet_safety.dogs",
+            "operator": "==",
+            "value": "toxic"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.excluded.safety",
+        "value": true
+      },
+      "explanation": "В паспорте указана опасность растения для собак."
+    },
+    {
+      "id": "R10",
+      "group": "B",
+      "description": "Блокировка рекомендации при неизвестной безопасности для животных",
+      "conditions": {
+        "logic": "OR",
+        "items": [
+          {
+            "logic": "AND",
+            "items": [
+              {
+                "fact": "user.pets",
+                "operator": "in",
+                "value": [
+                  "кошка",
+                  "кошка и собака"
+                ]
+              },
+              {
+                "fact": "plant.pet_safety.cats",
+                "operator": "==",
+                "value": "unknown"
+              }
+            ]
+          },
+          {
+            "logic": "AND",
+            "items": [
+              {
+                "fact": "user.pets",
+                "operator": "in",
+                "value": [
+                  "собака",
+                  "кошка и собака"
+                ]
+              },
+              {
+                "fact": "plant.pet_safety.dogs",
+                "operator": "==",
+                "value": "unknown"
+              }
+            ]
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.excluded.unknown_safety",
+        "value": true
+      },
+      "explanation": "Безопасность растения для имеющегося у пользователя вида животного не установлена; система не рекомендует его как безопасное до уточнения."
+    },
+    {
+      "id": "R11",
+      "group": "B",
+      "description": "Исключение из-за опасных колючек при возможном контакте с питомцем",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.pets",
+            "operator": "!=",
+            "value": "нет"
+          },
+          {
+            "fact": "plant.pet_safety.physical_risk",
+            "operator": "==",
+            "value": "dangerous_spines"
+          },
+          {
+            "fact": "user.pets_interest",
+            "operator": "==",
+            "value": "да"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.excluded.physical_risk",
+        "value": true
+      },
+      "explanation": "Питомец проявляет интерес к растениям, а растение имеет опасные колючки."
+    },
+    {
+      "id": "R12",
+      "group": "B",
+      "description": "Исключение растения при нарушении обязательного критерия",
+      "conditions": {
+        "logic": "OR",
+        "items": [
+          {
+            "fact": "candidate.excluded.light",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.excluded.safety",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.excluded.unknown_safety",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.excluded.physical_risk",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.eligible",
+        "value": false
+      },
+      "explanation": "Растение нарушает хотя бы одно обязательное ограничение и не допускается к рекомендации."
+    },
+    {
+      "id": "R13",
+      "group": "C",
+      "description": "Освещение соответствует предпочтениям растения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.lighting",
+            "operator": "==",
+            "fact_ref": "plant.lighting.preferred"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.light_compatible",
+        "value": true
+      },
+      "explanation": "Освещение в помещении соответствует предпочтительному освещению растения."
+    },
+    {
+      "id": "R14",
+      "group": "C",
+      "description": "Растение переносит слабое освещение",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.lighting",
+            "operator": "==",
+            "value": "слабое"
+          },
+          {
+            "fact": "plant.lighting.tolerates_low",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.light_compatible",
+        "value": true
+      },
+      "explanation": "Паспорт растения указывает, что оно переносит слабое освещение."
+    },
+    {
+      "id": "R15",
+      "group": "C",
+      "description": "Растение не переносит слабое освещение",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.lighting",
+            "operator": "==",
+            "value": "слабое"
+          },
+          {
+            "fact": "plant.lighting.tolerates_low",
+            "operator": "==",
+            "value": false
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.light_compatible",
+        "value": false
+      },
+      "explanation": "Растение не переносит слабое освещение."
+    },
+    {
+      "id": "R16",
+      "group": "C",
+      "description": "Совместимость при редком поливе",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.watering_preference",
+            "operator": "==",
+            "value": "редкий"
+          },
+          {
+            "fact": "plant.watering.frequency",
+            "operator": "==",
+            "value": "редкий"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.watering_compatible",
+        "value": true
+      },
+      "explanation": "Потребность растения в поливе совпадает с предпочтением пользователя — редким поливом."
+    },
+    {
+      "id": "R17",
+      "group": "C",
+      "description": "Совместимость при умеренном поливе",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.watering_preference",
+            "operator": "==",
+            "value": "умеренный"
+          },
+          {
+            "fact": "plant.watering.frequency",
+            "operator": "==",
+            "value": "умеренный"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.watering_compatible",
+        "value": true
+      },
+      "explanation": "Потребность растения в поливе совпадает с предпочтением пользователя — умеренным поливом."
+    },
+    {
+      "id": "R18",
+      "group": "C",
+      "description": "Совместимость при частом поливе",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.watering_preference",
+            "operator": "==",
+            "value": "частый"
+          },
+          {
+            "fact": "plant.watering.frequency",
+            "operator": "==",
+            "value": "частый"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.watering_compatible",
+        "value": true
+      },
+      "explanation": "Потребность растения в поливе совпадает с предпочтением пользователя — частым поливом."
+    },
+    {
+      "id": "R19",
+      "group": "C",
+      "description": "Совместимость влажности",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.humidity",
+            "operator": "matches",
+            "fact_ref": "plant.humidity.requirement"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.humidity_compatible",
+        "value": true
+      },
+      "explanation": "Влажность помещения соответствует требованиям растения."
+    },
+    {
+      "id": "R20",
+      "group": "C",
+      "description": "Несовместимость из-за сильных сквозняков",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.drafts",
+            "operator": "==",
+            "value": "сильные"
+          },
+          {
+            "fact": "plant.draft_sensitivity",
+            "operator": "==",
+            "value": "высокая"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.drafts_incompatible",
+        "value": true
+      },
+      "explanation": "Растение имеет высокую чувствительность к сильным сквознякам в помещении."
+    },
+    {
+      "id": "R21",
+      "group": "C",
+      "description": "Подтверждение совместимости условий помещения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.light_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.watering_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.humidity_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.drafts_incompatible",
+            "operator": "!=",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.room_conditions_compatible",
+        "value": true
+      },
+      "explanation": "Освещение, полив и влажность совместимы с требованиями растения, а сквозняки не выявлены как недопустимое препятствие."
+    },
+    {
+      "id": "R22",
+      "group": "D",
+      "description": "Минимальное время и неприхотливое растение",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.time_for_care",
+            "operator": "==",
+            "value": "минимальное"
+          },
+          {
+            "fact": "plant.care_difficulty",
+            "operator": "==",
+            "value": "низкая"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.care_compatible",
+        "value": true
+      },
+      "explanation": "Растение неприхотливо и соответствует ограниченному времени пользователя на уход."
+    },
+    {
+      "id": "R23",
+      "group": "D",
+      "description": "Минимальное время и требовательное растение",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.time_for_care",
+            "operator": "==",
+            "value": "минимальное"
+          },
+          {
+            "fact": "plant.care_difficulty",
+            "operator": "==",
+            "value": "высокая"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.care_compatible",
+        "value": false
+      },
+      "explanation": "Растение требует повышенного ухода, что не соответствует минимальному времени пользователя."
+    },
+    {
+      "id": "R24",
+      "group": "D",
+      "description": "Маленький размер не подходит крупному растению",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.size",
+            "operator": "==",
+            "value": "маленькое"
+          },
+          {
+            "fact": "plant.size.category",
+            "operator": "==",
+            "value": "крупное"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.size_compatible",
+        "value": false
+      },
+      "explanation": "Пользователь предпочитает маленькое растение, а растение относится к крупным."
+    },
+    {
+      "id": "R25",
+      "group": "D",
+      "description": "Средний размер соответствует предпочтению",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.size",
+            "operator": "==",
+            "value": "среднее"
+          },
+          {
+            "fact": "plant.size.category",
+            "operator": "==",
+            "value": "среднее"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.size_compatible",
+        "value": true
+      },
+      "explanation": "Размер растения соответствует предпочтению пользователя — среднему размеру."
+    },
+    {
+      "id": "R26",
+      "group": "D",
+      "description": "Крупный размер соответствует предпочтению",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.size",
+            "operator": "==",
+            "value": "крупное"
+          },
+          {
+            "fact": "plant.size.category",
+            "operator": "==",
+            "value": "крупное"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.size_compatible",
+        "value": true
+      },
+      "explanation": "Размер растения соответствует предпочтению пользователя — крупному размеру."
+    },
+    {
+      "id": "R27",
+      "group": "D",
+      "description": "Совпадение предпочтения цветущего растения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.appearance",
+            "operator": "==",
+            "value": "цветущее"
+          },
+          {
+            "fact": "plant.plant_type",
+            "operator": "==",
+            "value": "цветущее"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.appearance_compatible",
+        "value": true
+      },
+      "explanation": "Пользователь предпочитает цветущие растения, и данный кандидат относится к цветущим."
+    },
+    {
+      "id": "R28",
+      "group": "D",
+      "description": "Совпадение предпочтения декоративно-лиственного растения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.appearance",
+            "operator": "==",
+            "value": "декоративно-лиственное"
+          },
+          {
+            "fact": "plant.plant_type",
+            "operator": "==",
+            "value": "декоративно-лиственное"
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.appearance_compatible",
+        "value": true
+      },
+      "explanation": "Пользователь предпочитает декоративно-лиственные растения, и данный кандидат относится к этой группе."
+    },
+    {
+      "id": "R29",
+      "group": "D",
+      "description": "Внешний вид не ограничивает выбор",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.appearance",
+            "operator": "==",
+            "value": "неважно"
+          },
+          {
+            "fact": "candidate.mandatory_checks_passed",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.appearance_compatible",
+        "value": true
+      },
+      "explanation": "Пользователь не ограничивает выбор по внешнему виду, поэтому этот критерий не снижает пригодность кандидата."
+    },
+    {
+      "id": "R30",
+      "group": "D",
+      "description": "Приоритет простого ухода",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "user.time_for_care",
+            "operator": "==",
+            "value": "минимальное"
+          },
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": ">",
+            "value": 1
+          }
+        ]
+      },
+      "action": {
+        "type": "increase_priority",
+        "target": "candidate",
+        "priority_factor": "care_ease"
+      },
+      "explanation": "При выборе среди нескольких допущенных растений повышается приоритет кандидата с более простой категорией ухода."
+    },
+    {
+      "id": "R31",
+      "group": "E",
+      "description": "Базовые условия выполнены",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.excluded.safety",
+            "operator": "!=",
+            "value": true
+          },
+          {
+            "fact": "candidate.excluded.unknown_safety",
+            "operator": "!=",
+            "value": true
+          },
+          {
+            "fact": "candidate.light_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.watering_compatible",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.basic_conditions_compatible",
+        "value": true
+      },
+      "explanation": "Кандидат не исключён по безопасности и подходит по освещению и поливу."
+    },
+    {
+      "id": "R32",
+      "group": "E",
+      "description": "Допуск растения к рекомендации",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.basic_conditions_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.humidity_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.drafts_incompatible",
+            "operator": "!=",
+            "value": true
+          },
+          {
+            "fact": "candidate.excluded.physical_risk",
+            "operator": "!=",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "set_fact",
+        "fact": "candidate.eligible",
+        "value": true
+      },
+      "explanation": "Кандидат соответствует базовым условиям, требованиям к влажности и допустимому уровню риска от сквозняков и физических опасностей."
+    },
+    {
+      "id": "R33",
+      "group": "E",
+      "description": "Снижение приоритета из-за сложности ухода",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.eligible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.care_compatible",
+            "operator": "==",
+            "value": false
+          }
+        ]
+      },
+      "action": {
+        "type": "decrease_priority",
+        "target": "candidate",
+        "priority_factor": "care_compatibility"
+      },
+      "explanation": "Кандидат остаётся допустимым, но его приоритет снижается из-за несоответствия возможностям пользователя по уходу."
+    },
+    {
+      "id": "R34",
+      "group": "E",
+      "description": "Повышение приоритета по предпочтениям",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.eligible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.size_compatible",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.appearance_compatible",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "increase_priority",
+        "target": "candidate",
+        "priority_factor": "size_and_appearance_match"
+      },
+      "explanation": "Допущенный кандидат соответствует предпочтениям пользователя по размеру и внешнему виду."
+    },
+    {
+      "id": "R35",
+      "group": "E",
+      "description": "Нет допущенных растений",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": "==",
+            "value": 0
+          }
+        ]
+      },
+      "action": {
+        "type": "report_no_recommendation",
+        "message": "Подходящее растение не найдено. Система объяснит, какие обязательные условия не выполнены или каких данных не хватает."
+      },
+      "explanation": "После проверки всех кандидатов ни одно растение не прошло обязательные критерии."
+    },
+    {
+      "id": "R36",
+      "group": "E",
+      "description": "Переход к выбору одного растения",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "action": {
+        "type": "compare_priorities"
+      },
+      "explanation": "Есть хотя бы один допущенный кандидат; система сравнивает приоритеты, чтобы выбрать ровно одно растение."
+    },
+    {
+      "id": "R37",
+      "group": "F",
+      "description": "Приоритет предпочтительного внешнего вида",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": ">",
+            "value": 1
+          },
+          {
+            "fact": "user.appearance",
+            "operator": "!=",
+            "value": "не имеет значения"
+          },
+          {
+            "fact": "candidate.appearance_compatible",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "increase_priority",
+        "target": "candidate",
+        "priority_factor": "appearance_match"
+      },
+      "explanation": "Среди нескольких допущенных кандидатов повышается приоритет растения, соответствующего предпочтению по внешнему виду."
+    },
+    {
+      "id": "R38",
+      "group": "F",
+      "description": "Приоритет желаемого размера",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": ">",
+            "value": 1
+          },
+          {
+            "fact": "candidate.size_compatible",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "increase_priority",
+        "target": "candidate",
+        "priority_factor": "size_match"
+      },
+      "explanation": "Повышается приоритет растения, размер которого соответствует предпочтению пользователя."
+    },
+    {
+      "id": "R39",
+      "group": "F",
+      "description": "Приоритет простоты ухода при выборе",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.eligible_candidates_count",
+            "operator": ">",
+            "value": 1
+          },
+          {
+            "fact": "user.time_for_care",
+            "operator": "==",
+            "value": "минимальное"
+          }
+        ]
+      },
+      "action": {
+        "type": "increase_priority",
+        "target": "candidate",
+        "priority_factor": "care_ease"
+      },
+      "explanation": "При ограниченном времени повышается приоритет более неприхотливых растений."
+    },
+    {
+      "id": "R40",
+      "group": "F",
+      "description": "Разрешение равенства приоритетов",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.top_priority_tie",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "apply_tiebreaker",
+        "strategy": "configured_order"
+      },
+      "explanation": "Если несколько кандидатов имеют одинаковый приоритет, применяется заранее заданный порядок разрешения равенства."
+    },
+    {
+      "id": "R41",
+      "group": "F",
+      "description": "Выбор единственной рекомендации",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "candidate.is_highest_priority",
+            "operator": "==",
+            "value": true
+          },
+          {
+            "fact": "candidate.eligible",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "select_recommendation",
+        "count": 1
+      },
+      "explanation": "Выбирается один кандидат с наивысшим приоритетом, прошедший обязательные проверки."
+    },
+    {
+      "id": "R42",
+      "group": "F",
+      "description": "Формирование объяснения рекомендации",
+      "conditions": {
+        "logic": "AND",
+        "items": [
+          {
+            "fact": "system.recommendation_selected",
+            "operator": "==",
+            "value": true
+          }
+        ]
+      },
+      "action": {
+        "type": "build_explanation",
+        "source": "fired_rules_and_session_facts"
+      },
+      "explanation": "Объяснение формируется по ответам пользователя, характеристикам выбранного растения и реально сработавшим правилам."
+    }
+  ]
+}
