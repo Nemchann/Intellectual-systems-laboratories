@@ -57,6 +57,21 @@ def normalize_value(value, fact_path=""):
         return text
     return value
 
+def is_unknown_answer(value):
+    """Проверяет, что ответ отсутствует или обозначает неизвестное."""
+    if value is None or value is UNKNOWN:
+        return True
+
+    if isinstance(value, str):
+        return value.strip().lower() in {
+            "unknown",
+            "не знаю",
+            "неизвестно",
+            ""
+        }
+
+    return False
+
 
 def resolve_condition_value(item, facts, plant):
     if "fact_ref" in item:
@@ -194,6 +209,15 @@ def apply_action(rule, facts, plant, local_facts, fired_rules):
     })
 
 
+def user_answer(facts, key):
+    flat_key = f"user.{key}"
+
+    if flat_key in facts:
+        return facts[flat_key]
+
+    return facts.get("user", {}).get(key)
+
+
 def evaluate_candidate(plant, facts, rules):
     """Применяет правила к одному растению; возвращает его рабочие факты и журнал."""
     local = {
@@ -213,6 +237,73 @@ def evaluate_candidate(plant, facts, rules):
         "eligible": False,
         "priority_factors": {},
     }
+
+    humidity_unknown = is_unknown_answer(
+        user_answer(facts, "humidity")
+    )
+
+    drafts_unknown = is_unknown_answer(
+        user_answer(facts, "drafts")
+    )
+
+    pets = user_answer(facts, "pets")
+    pets_interest = user_answer(facts, "pets_interest")
+
+    pets_present = pets not in (None, "нет", "unknown", "не знаю")
+
+    pets_interest_unknown = (
+            pets_present and is_unknown_answer(pets_interest)
+    )
+
+    local["uncertainties"] = []
+
+    if humidity_unknown:
+        local["uncertainties"].append(
+            "Влажность воздуха неизвестна."
+        )
+
+    if drafts_unknown:
+        local["uncertainties"].append(
+            "Наличие сквозняков неизвестно."
+        )
+
+    if pets_interest_unknown:
+        local["uncertainties"].append(
+            "Неизвестно, интересуется ли питомец растениями."
+        )
+
+    # Неизвестная влажность не должна автоматически блокировать подбор.
+    user_humidity = facts.get(
+        "user.humidity",
+        facts.get("user", {}).get("humidity")
+    )
+
+    humidity_unknown = (
+        user_humidity is None
+        or normalize_value(user_humidity, "user.humidity") == "unknown"
+    )
+
+    local["humidity_uncertain"] = humidity_unknown
+
+    if humidity_unknown:
+        local["humidity_compatible"] = True
+        local["humidity_compatibility_unconfirmed"] = True
+
+    physical_risk = normalize_value(
+        get_path(
+            {"plant": plant},
+            "plant.pet_safety.physical_risk"
+        ),
+        "plant.pet_safety.physical_risk"
+    )
+
+    if (
+        pets_present
+        and pets_interest_unknown
+        and physical_risk == "dangerous_spines"
+    ):
+        local["excluded"]["physical_risk"] = True
+
     fired = []
 
     # Несколько проходов позволяют использовать факты, установленные предыдущими правилами.
@@ -264,6 +355,18 @@ def run_inference(session_facts, plants, rules):
             "fired_rules": [entry for result in results for entry in result["fired_rules"]],
         }
 
+    uncertainties = []
+
+    if any(
+        result["facts"].get("humidity_uncertain")
+        for result in eligible
+    ):
+        uncertainties.append(
+            "Влажность воздуха неизвестна. "
+            "Рекомендация предварительная: "
+            "совместимость по влажности не подтверждена."
+        )
+
     # Дополнительные предпочтения используются для ранжирования только среди допущенных растений.
     # При равенстве применяется порядок растений в plants.json (правило configured_order).
     def user_answer(key):
@@ -294,6 +397,17 @@ def run_inference(session_facts, plants, rules):
     winner = max(eligible, key=lambda result: result["facts"].get("final_score", 0))
     winner["facts"]["is_highest_priority"] = True
 
+    uncertainties = list(
+        winner["facts"].get("uncertainties", [])
+    )
+
+    if uncertainties:
+        uncertainties.insert(
+            0,
+            "Рекомендация предварительная: "
+            "не все условия удалось проверить."
+        )
+
     # Применяем R41/R42 к итоговому результату и сохраняем объяснения реальных срабатываний.
     system_fired = []
     for rule in rules:
@@ -310,4 +424,5 @@ def run_inference(session_facts, plants, rules):
         "message": f"Рекомендуем растение: {winner['plant'].get('name', winner['plant'].get('id', 'растение'))}.",
         "candidates": results,
         "fired_rules": [entry for result in results for entry in result["fired_rules"]] + system_fired,
+        "uncertainties": uncertainties,
     }
