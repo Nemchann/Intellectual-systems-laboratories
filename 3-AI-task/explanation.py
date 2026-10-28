@@ -52,11 +52,64 @@ def build_explanation(session_facts: dict, inference_result: dict) -> dict:
         message = inference_result.get(
             "message", "Подходящее растение не найдено по указанным условиям."
         )
+
+        reasons = []
+        all_fired_ids = []
+
+        for candidate in candidates:
+            plant = candidate.get("plant", {})
+            plant_name = _plant_name(plant)
+            local_facts = candidate.get("facts", {})
+            excluded = local_facts.get("excluded", {})
+            plant_reasons = []
+
+            if excluded.get("light"):
+                plant_reasons.append(
+                    "не подходит освещение"
+                )
+
+            if excluded.get("safety"):
+                plant_reasons.append(
+                    "обнаружен риск для домашнего животного"
+                )
+
+            if excluded.get("unknown_safety"):
+                plant_reasons.append(
+                    "недостаточно данных о безопасности для питомца"
+                )
+
+            if excluded.get("physical_risk"):
+                plant_reasons.append(
+                    "обнаружен физический риск для питомца"
+                )
+
+            # Учитываем правила, реально сработавшие для растения.
+            for rule in candidate.get("fired_rules", []):
+                rule_id = rule.get("id")
+                if rule_id and rule_id not in all_fired_ids:
+                    all_fired_ids.append(rule_id)
+
+            if plant_reasons:
+                reasons.append(
+                    f"{plant_name}: " + "; ".join(plant_reasons)
+                )
+            else:
+                reasons.append(
+                    f"{plant_name}: растение не прошло все условия "
+                    "допуска к рекомендации"
+                )
+
+        text = message
+
+        if reasons:
+            text += "\nПричины отсутствия рекомендации:\n"
+            text += "\n".join(f"- {reason}" for reason in reasons)
+
         return {
             "title": "Рекомендация не сформирована",
-            "text": message,
-            "fired_rule_ids": [],
-            "reasons": [],
+            "text": text,
+            "fired_rule_ids": all_fired_ids,
+            "reasons": reasons,
         }
 
     # Находим результат оценки именно рекомендованного растения.
