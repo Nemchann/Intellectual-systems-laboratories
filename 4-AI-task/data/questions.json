@@ -1,0 +1,210 @@
+{
+  "questions": [
+    {
+      "id": "Q1",
+      "field": "lighting",
+      "text": "Насколько хорошо освещено место, где будет стоять растение?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "low",
+          "label": "Мало света"
+        },
+        {
+          "value": "moderate",
+          "label": "Рассеянный или умеренный свет"
+        },
+        {
+          "value": "bright",
+          "label": "Яркий свет"
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "field": "watering",
+      "text": "Как часто вы готовы поливать растение?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "rare",
+          "label": "Редко"
+        },
+        {
+          "value": "moderate",
+          "label": "Умеренно, по мере необходимости"
+        },
+        {
+          "value": "frequent",
+          "label": "Часто"
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "field": "humidity",
+      "text": "Какая влажность воздуха обычно бывает в помещении?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "low",
+          "label": "Низкая"
+        },
+        {
+          "value": "moderate",
+          "label": "Средняя"
+        },
+        {
+          "value": "high",
+          "label": "Высокая"
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "field": "draft_exposure",
+      "text": "Насколько часто место для растения подвергается сквознякам?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "no",
+          "label": "Cквозняков нет"
+        },
+        {
+          "value": "low",
+          "label": "Практически не бывает сквозняков"
+        },
+        {
+          "value": "medium",
+          "label": "Иногда бывают сквозняки"
+        },
+        {
+          "value": "high",
+          "label": "Сквозняки бывают часто"
+        }
+      ],
+      "answer_semantics": "Это характеристика помещения, а не растения. При оценке совместимости сравнивать с draft_sensitivity: частые сквозняки допустимы для растений с низкой чувствительностью."
+    },
+    {
+      "id": "Q5",
+      "field": "size",
+      "text": "Какого размера растение вы хотели бы приобрести?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "small",
+          "label": "Небольшое"
+        },
+        {
+          "value": "medium",
+          "label": "Среднее"
+        },
+        {
+          "value": "large",
+          "label": "Крупное"
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "field": "care_capacity",
+      "text": "Насколько сложный уход за растением вы готовы обеспечить?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "low",
+          "label": "Предпочитаю неприхотливое растение"
+        },
+        {
+          "value": "moderate",
+          "label": "Готов(а) к умеренному уходу"
+        },
+        {
+          "value": "high",
+          "label": "Готов(а) уделять уходу много внимания"
+        }
+      ],
+      "answer_semantics": "Это готовность пользователя ухаживать за растением. Сопоставлять с care_difficulty: высокая готовность допускает более сложный уход."
+    },
+    {
+      "id": "Q7",
+      "field": "appearance",
+      "text": "Какой внешний вид растения вам больше нравится?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "foliage",
+          "label": "Декоративная листва"
+        },
+        {
+          "value": "flowering",
+          "label": "Цветущее растение"
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "field": "any_pet",
+      "text": "Есть ли дома животные, для которых растение должно быть безопасным?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "cats",
+          "label": "Кошки"
+        },
+        {
+          "value": "dogs",
+          "label": "Собаки"
+        },
+        {
+          "value": "cats_and_dogs",
+          "label": "Кошки и собаки"
+        },
+        {
+          "value": "no",
+          "label": "отсутствуют"
+        }
+      ],
+      "empty_selection": "Животных нет",
+      "evaluation": "Если выбран вид животного, то задать вопрос Q9."
+    },
+    {
+      "id": "Q9",
+      "field": "pet_risks",
+      "text": "Насколько важно, чтобы растение было безопасным для животного?",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "false",
+          "label": "Нет, опасностей быть не должно"
+        },
+        {
+          "value": "true",
+          "label": "Да, допустимы"
+        }
+      ],
+      "empty_selection": "Животных нет",
+      "evaluation": "При ответе false исключать растения с непустым physical_risks, а также которые присутствуют в toxic_to."
+    },
+    {
+      "id": "Q10",
+      "field": "mistake_tolerance",
+      "text": "Какой у вас опыт цветоводства?",
+      "type": "care_difficulty",
+      "options": [
+        {
+          "value": "low",
+          "label": "Начинающий"
+        },
+        {
+          "value": "moderate",
+          "label": "Средний"
+        },
+        {
+          "value": "high",
+          "label": "Опытный"
+        }
+      ]
+    }
+  ]
+}

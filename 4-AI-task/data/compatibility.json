@@ -1,0 +1,424 @@
+{
+  "compatibility": {
+    "zamioculcas": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 1.0,
+        "moderate": 0.5,
+        "frequent": 0.0
+      },
+      "humidity":{
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 0.75
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.75,
+        "medium": 0.5,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.5,
+        "medium": 1.0,
+        "large": 0.75
+      },
+      "care_capacity": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "sansevieria": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 0.5,
+        "moderate": 1.0,
+        "frequent": 0.5
+      },
+      "humidity":{
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 0.75
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.75,
+        "medium": 0.5,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.5,
+        "medium": 1.0,
+        "large": 0.75
+      },
+      "care_capacity": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "spathiphyllum": {
+      "lighting": {
+        "low": 0.25,
+        "moderate": 0.75,
+        "bright": 1.0
+      },
+      "watering": {
+        "rare": 0.25,
+        "moderate": 0.75,
+        "frequent": 1.0
+      },
+      "humidity":{
+        "low": 0.0,
+        "moderate": 0.5,
+        "high": 1.0
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.25,
+        "medium": 0.0,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.5,
+        "medium": 1.0,
+        "large": 0.75
+      },
+      "care_capacity": {
+        "low": 0.0,
+        "moderate": 0.5,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 0.0,
+        "flowering": 1.0
+      },
+      "mistake_tolerance": {
+        "low": 0.25,
+        "moderate": 0.75,
+        "high": 1.0
+      }
+    },
+    "monstera": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 0.5,
+        "moderate": 1.0,
+        "frequent": 0.5
+      },
+      "humidity":{
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 0.75
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.5,
+        "medium": 0.25,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.0,
+        "medium": 0.5,
+        "large": 1.0
+      },
+      "care_capacity": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 0.25,
+        "moderate": 0.75,
+        "high": 1.0
+      }
+    },
+    "espostoa": {
+      "lighting": {
+        "low": 0.25,
+        "moderate": 0.5,
+        "bright": 1.0
+      },
+      "watering": {
+        "rare": 1.0,
+        "moderate": 0.5,
+        "frequent": 0.0
+      },
+      "humidity":{
+        "low": 1.0,
+        "moderate": 0.75,
+        "high": 0.25
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.75,
+        "medium": 0.5,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.5,
+        "medium": 1.0,
+        "large": 0.5
+      },
+      "care_capacity": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "chlorophytum": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 1.0,
+        "moderate": 0.5,
+        "frequent": 0.0
+      },
+      "humidity":{
+        "low": 1.0,
+        "moderate": 0.75,
+        "high": 0.25
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.75,
+        "medium": 0.5,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.5,
+        "medium": 1.0,
+        "large": 0.5
+      },
+      "care_capacity": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "philodendron": {
+      "lighting": {
+        "low": 0.75,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 1.0,
+        "moderate": 0.5,
+        "frequent": 0.0
+      },
+      "humidity":{
+        "low": 1.0,
+        "moderate": 0.75,
+        "high": 0.25
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.5,
+        "medium": 0.25,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.0,
+        "medium": 0.5,
+        "large": 1.0
+      },
+      "care_capacity": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "saintpaulia": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "bright": 0.5
+      },
+      "watering": {
+        "rare": 0.5,
+        "moderate": 1.0,
+        "frequent": 0.5
+      },
+      "humidity":{
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 0.75
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.25,
+        "medium": 0.0,
+        "high": 0.0
+      },
+      "size": {
+        "small": 1.0,
+        "medium": 0.5,
+        "large": 0.0
+      },
+      "care_capacity": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 0.0,
+        "flowering": 1.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "echeveria": {
+      "lighting": {
+        "low": 0.5,
+        "moderate": 0.75,
+        "bright": 1.0
+      },
+      "watering": {
+        "rare": 1.0,
+        "moderate": 0.5,
+        "frequent": 0.0
+      },
+      "humidity":{
+        "low": 1.0,
+        "moderate": 0.75,
+        "high": 0.25
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.75,
+        "medium": 0.5,
+        "high": 0.0
+      },
+      "size": {
+        "small": 1.0,
+        "medium": 0.5,
+        "large": 0.0
+      },
+      "care_capacity": {
+        "low": 0.5,
+        "moderate": 1.0,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 1.0,
+        "moderate": 1.0,
+        "high": 1.0
+      }
+    },
+    "pachira": {
+      "lighting": {
+        "low": 0.0,
+        "moderate": 0.5,
+        "bright": 1.0
+      },
+      "watering": {
+        "rare": 0.5,
+        "moderate": 1.0,
+        "frequent": 0.5
+      },
+      "humidity":{
+        "low": 0.0,
+        "moderate": 0.5,
+        "high": 1.0
+      },
+      "draft_exposure": {
+        "no": 1.0,
+        "low": 0.25,
+        "medium": 0.0,
+        "high": 0.0
+      },
+      "size": {
+        "small": 0.0,
+        "medium": 0.5,
+        "large": 1.0
+      },
+      "care_capacity": {
+        "low": 0.0,
+        "moderate": 0.5,
+        "high": 1.0
+      },
+      "appearance": {
+        "foliage": 1.0,
+        "flowering": 0.0
+      },
+      "mistake_tolerance": {
+        "low": 0.25,
+        "moderate": 0.75,
+        "high": 1.0
+      }
+    }
+  }
+}

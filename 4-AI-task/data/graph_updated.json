@@ -1,0 +1,429 @@
+{
+  "description": "Структурная модель И/ИЛИ-графа подбора комнатных растений. Расчёт выполняется отдельно для каждого plant_id.",
+  "data_sources": {
+    "plants": "plants.json",
+    "compatibility": "compatibility.json",
+    "compatibility_note": "Значения q берутся из compatibility.json по plant_id и соответствующему признаку; в graph.json хранятся только коэффициенты k и структура вычислений."
+  },
+  "evaluation": {
+    "per_plant": true,
+    "single_edge_formula": "q(target) = k * q(source)",
+    "and_formula": "q(output) = kИ * min(q(input_i))",
+    "or_formula": "q(output) = 1 - product(1 - k_i * q(input_i))",
+    "plant_specific_k_lookup": "k_by_plant[plant_id]",
+    "appearance_note": "При выборе 'любой' обе ветви должны получить q=1; при выборе конкретного типа оценивается соответствующая ветвь. Для несовпадающей ветви q=0.",
+    "safety_note": "c04 рассчитывается отдельной программной функцией; он не является обычной AND-группой.",
+    "and_group_coefficients_note": "k=1.0 у AND-групп оставлен как нейтральное предварительное значение, не выведенное из экспертной таблицы."
+  },
+  "nodes": [
+    {
+      "id": "e01",
+      "type": "input",
+      "name": "Освещение",
+      "field": "lighting"
+    },
+    {
+      "id": "e02",
+      "type": "input",
+      "name": "Полив",
+      "field": "watering"
+    },
+    {
+      "id": "e03",
+      "type": "input",
+      "name": "Влажность",
+      "field": "humidity"
+    },
+    {
+      "id": "e04",
+      "type": "input",
+      "name": "Сквозняки",
+      "field": "draft_exposure"
+    },
+    {
+      "id": "e05",
+      "type": "input",
+      "name": "Время на уход",
+      "field": "care_capacity"
+    },
+    {
+      "id": "e06",
+      "type": "input",
+      "name": "Размер растения",
+      "field": "size"
+    },
+    {
+      "id": "e07",
+      "type": "input",
+      "name": "Внешний вид",
+      "field": "appearance"
+    },
+    {
+      "id": "e08",
+      "type": "input",
+      "name": "Домашние животные",
+      "field": "pets"
+    },
+    {
+      "id": "e09",
+      "type": "input",
+      "name": "Требования к безопасности",
+      "field": "pet_safety_preference"
+    },
+    {
+      "id": "e10",
+      "type": "input",
+      "name": "Опыт цветоводства",
+      "field": "gardening_experience"
+    },
+    {
+      "id": "t01",
+      "type": "intermediate",
+      "name": "Оценка освещения",
+      "q_source": "compatibility.{plant_id}.lighting"
+    },
+    {
+      "id": "t02",
+      "type": "intermediate",
+      "name": "Оценка полива",
+      "q_source": "compatibility.{plant_id}.watering"
+    },
+    {
+      "id": "t03",
+      "type": "intermediate",
+      "name": "Оценка влажности",
+      "q_source": "compatibility.{plant_id}.humidity"
+    },
+    {
+      "id": "t04",
+      "type": "intermediate",
+      "name": "Оценка сквозняков",
+      "q_source": "compatibility.{plant_id}.draft_exposure"
+    },
+    {
+      "id": "t05",
+      "type": "intermediate",
+      "name": "Оценка времени на уход",
+      "q_source": "compatibility.{plant_id}.care_capacity"
+    },
+    {
+      "id": "t06",
+      "type": "intermediate",
+      "name": "Оценка размера",
+      "q_source": "compatibility.{plant_id}.size"
+    },
+    {
+      "id": "t07",
+      "type": "intermediate",
+      "name": "Оценка опыта",
+      "q_source": "compatibility.{plant_id}.mistake_tolerance"
+    },
+    {
+      "id": "a07-1",
+      "type": "computed",
+      "name": "Совпадение предпочтения: цветущее",
+      "calculation": "evaluate_appearance_branch",
+      "depends_on": [
+        "e07",
+        "plants.{{plant_id}}.appearance",
+        "compatibility.{{plant_id}}.appearance.flowering"
+      ],
+      "branch_value": "flowering"
+    },
+    {
+      "id": "a07-2",
+      "type": "computed",
+      "name": "Совпадение предпочтения: декоративно-лиственное",
+      "calculation": "evaluate_appearance_branch",
+      "depends_on": [
+        "e07",
+        "plants.{{plant_id}}.appearance",
+        "compatibility.{{plant_id}}.appearance.foliage"
+      ],
+      "branch_value": "foliage"
+    },
+    {
+      "id": "c01",
+      "type": "intermediate",
+      "name": "Условия содержания"
+    },
+    {
+      "id": "c02",
+      "type": "intermediate",
+      "name": "Возможности ухода"
+    },
+    {
+      "id": "c03a",
+      "type": "intermediate",
+      "name": "Оценка внешнего вида"
+    },
+    {
+      "id": "c03",
+      "type": "intermediate",
+      "name": "Предпочтения пользователя"
+    },
+    {
+      "id": "c04",
+      "type": "computed",
+      "name": "Безопасность животных",
+      "calculation": "evaluate_pet_safety",
+      "depends_on": [
+        "e08",
+        "e09",
+        "plants.{{plant_id}}.toxic_to",
+        "plants.{{plant_id}}.physical_risks"
+      ],
+      "description": "Условная проверка безопасности; результат 0 или 1 по согласованному правилу."
+    },
+    {
+      "id": "c05",
+      "type": "intermediate",
+      "name": "Итоговая оценка растения"
+    },
+    {
+      "id": "r01",
+      "type": "output",
+      "name": "Замиокулькас",
+      "plant_id": "zamioculcas"
+    },
+    {
+      "id": "r02",
+      "type": "output",
+      "name": "Сансевиерия",
+      "plant_id": "sansevieria"
+    },
+    {
+      "id": "r03",
+      "type": "output",
+      "name": "Спатифиллум",
+      "plant_id": "spathiphyllum"
+    },
+    {
+      "id": "r04",
+      "type": "output",
+      "name": "Монстера",
+      "plant_id": "monstera"
+    },
+    {
+      "id": "r05",
+      "type": "output",
+      "name": "Эспостоа",
+      "plant_id": "espostoa"
+    },
+    {
+      "id": "r06",
+      "type": "output",
+      "name": "Хлорофитум",
+      "plant_id": "chlorophytum"
+    },
+    {
+      "id": "r07",
+      "type": "output",
+      "name": "Филодендрон",
+      "plant_id": "philodendron"
+    },
+    {
+      "id": "r08",
+      "type": "output",
+      "name": "Африканская фиалка",
+      "plant_id": "saintpaulia"
+    },
+    {
+      "id": "r09",
+      "type": "output",
+      "name": "Эхеверия",
+      "plant_id": "echeveria"
+    },
+    {
+      "id": "r10",
+      "type": "output",
+      "name": "Пахира",
+      "plant_id": "pachira"
+    }
+  ],
+  "connections": [
+    {
+      "source": "e01",
+      "target": "t01",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "e02",
+      "target": "t02",
+      "type": "single",
+      "k_by_plant": {
+        "zamioculcas": 0.9,
+        "sansevieria": 1.0,
+        "spathiphyllum": 1.0,
+        "monstera": 1.0,
+        "espostoa": 0.9,
+        "chlorophytum": 0.9,
+        "philodendron": 0.9,
+        "saintpaulia": 1.0,
+        "echeveria": 0.9,
+        "pachira": 1.0
+      }
+    },
+    {
+      "source": "e03",
+      "target": "t03",
+      "type": "single",
+      "k_by_plant": {
+        "zamioculcas": 0.8,
+        "sansevieria": 0.8,
+        "spathiphyllum": 1.0,
+        "monstera": 0.8,
+        "espostoa": 0.6,
+        "chlorophytum": 0.6,
+        "philodendron": 0.6,
+        "saintpaulia": 0.8,
+        "echeveria": 0.6,
+        "pachira": 1.0
+      }
+    },
+    {
+      "source": "e04",
+      "target": "t04",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "e05",
+      "target": "t05",
+      "type": "single",
+      "k": 0.7
+    },
+    {
+      "source": "e06",
+      "target": "t06",
+      "type": "single",
+      "k": 0.7
+    },
+    {
+      "source": "e10",
+      "target": "t07",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r01",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r02",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r03",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r04",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r05",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r06",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r07",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r08",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r09",
+      "type": "single",
+      "k": 1.0
+    },
+    {
+      "source": "c05",
+      "target": "r10",
+      "type": "single",
+      "k": 1.0
+    }
+  ],
+  "groups": [
+    {
+      "id": "g01",
+      "type": "AND",
+      "inputs": [
+        "t01",
+        "t02",
+        "t03",
+        "t04"
+      ],
+      "output": "c01",
+      "k": 1.0
+    },
+    {
+      "id": "g02",
+      "type": "AND",
+      "inputs": [
+        "t05",
+        "t07"
+      ],
+      "output": "c02",
+      "k": 1.0
+    },
+    {
+      "id": "g03a",
+      "type": "OR",
+      "inputs": [
+        "a07-1",
+        "a07-2"
+      ],
+      "output": "c03a",
+      "input_k": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "id": "g03",
+      "type": "AND",
+      "inputs": [
+        "t06",
+        "c03a"
+      ],
+      "output": "c03",
+      "k": 1.0
+    },
+    {
+      "id": "g05",
+      "type": "AND",
+      "inputs": [
+        "c01",
+        "c02",
+        "c03",
+        "c04"
+      ],
+      "output": "c05",
+      "k": 1.0
+    }
+  ]
+}
